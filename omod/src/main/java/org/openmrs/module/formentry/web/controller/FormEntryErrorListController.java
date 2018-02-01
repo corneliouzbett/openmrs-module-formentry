@@ -13,44 +13,50 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.formentry.FormEntryError;
 import org.openmrs.module.formentry.FormEntryService;
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.ModelMap;
 
-public class FormEntryErrorListController extends SimpleFormController {
-	
-    /** Logger for this class and subclasses */
-    protected final Log log = LogFactory.getLog(getClass());
+@Controller
+@RequestMapping(value="module/formentry/formEntryError.list")
+public class FormEntryErrorListController  {
 
-    /**
-     * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
-     */
-    protected Object formBackingObject(HttpServletRequest request) throws ServletException {
-		
+	/** Logger for this class and subclasses */
+	protected final Log log = LogFactory.getLog(getClass());
+//    @Autowired FormEntryService formEntryService;
+	/**
+	 *
+	 */
+	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
+
 		//default empty Object
 		List<FormEntryError> errorList = new Vector<FormEntryError>();
-		
+
 		// not used
-		
-        return errorList;
-    }
+
+		return errorList;
+	}
 
 	/**
-	 * @see org.springframework.web.servlet.mvc.SimpleFormController#referenceData(javax.servlet.http.HttpServletRequest)
+	 *
 	 */
-	protected Map referenceData(HttpServletRequest request) throws Exception {
+	@RequestMapping(method=RequestMethod.GET)
+	public String referenceData(ModelMap modelAndView) throws Exception {
 		//default empty Objects
 		Integer errorSize = 0;
-		
+
 		//only fill the objects if the user has authenticated properly
 		if (Context.isAuthenticated()) {
-			FormEntryService fs = (FormEntryService)Context.getService(FormEntryService.class);
-			errorSize = fs.getFormEntryErrorSize();
+			FormEntryService formEntryService = Context.getService(FormEntryService.class);
+			errorSize = formEntryService.getFormEntryErrorSize();
 		}
-    	
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("errorSize", errorSize);
-		
-        return map;
+
+//		map.put("errorSize", errorSize);
+		modelAndView.put("errorSize", errorSize);
+		return "module/formentry/formEntryErrorList";
 	}
-	
+
 }

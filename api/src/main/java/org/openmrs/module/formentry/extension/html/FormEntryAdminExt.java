@@ -8,7 +8,7 @@ import org.openmrs.module.Extension;
 import org.openmrs.module.formentry.FormEntryConstants;
 import org.openmrs.module.formentry.FormEntryService;
 import org.openmrs.module.web.extension.AdministrationSectionExt;
-import org.openmrs.util.InsertedOrderComparator;
+import java.util.HashMap;
 
 /**
  * Admin section links for the form entry module on the administration page
@@ -31,7 +31,7 @@ public class FormEntryAdminExt extends AdministrationSectionExt {
 	
 	public Map<String, String> getLinks() {
 		
-		Map<String, String> map = new TreeMap<String, String>(new InsertedOrderComparator());
+		Map<String, String> map =new HashMap<String, String>();
 		
 		map.put("module/formentry/xsnUpload.form", "formentry.xsn.title");
 		map.put("module/formentry/formEntryError.list", "formentry.FormEntryError.manage");

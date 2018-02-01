@@ -14,29 +14,29 @@
 
 package org.openmrs.steps;
 
-import org.jbehave.core.annotations.Given;
-import org.jbehave.core.annotations.Then;
-import org.openmrs.Steps;
-import org.openqa.selenium.WebDriver;
+//import org.jbehave.core.annotations.Given;
+//import org.jbehave.core.annotations.Then;
+////import org.openmrs.Steps;
+//import org.openqa.selenium.WebDriver;
+//
+//import static org.hamcrest.Matchers.equalTo;
+//import static org.openqa.selenium.lift.Finders.div;
+//import static org.openqa.selenium.lift.Finders.title;
+//import static org.openqa.selenium.lift.Matchers.text;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.openqa.selenium.lift.Finders.div;
-import static org.openqa.selenium.lift.Finders.title;
-import static org.openqa.selenium.lift.Matchers.text;
+public class LookupFormentryInformationSteps { //extends Steps {
 
-public class LookupFormentryInformationSteps extends Steps {
-
-    public LookupFormentryInformationSteps(WebDriver driver) {
-        super(driver);
-    }
-
-    @Given("I am on Admin page")
-    public void iAmOnAdminPage() {
-        assertPresenceOf(title("OpenMRS - Administration"));
-    }
-
-    @Then("take me to Update Forms With Relationships Page with $formentryInformation as heading")
-    public void verifyUpdateFormsWithRelationshipsPage(String formentryInformation) {
-        assertPresenceOf(div().with(text(equalTo(formentryInformation))));
-    }
+//    public LookupFormentryInformationSteps(WebDriver driver) {
+//        super(driver);
+//    }
+//
+//    @Given("I am on Admin page")
+//    public void iAmOnAdminPage() {
+//        assertPresenceOf(title("OpenMRS - Administration"));
+//    }
+//
+//    @Then("take me to Update Forms With Relationships Page with $formentryInformation as heading")
+//    public void verifyUpdateFormsWithRelationshipsPage(String formentryInformation) {
+//        assertPresenceOf(div().with(text(equalTo(formentryInformation))));
+//    }
 }

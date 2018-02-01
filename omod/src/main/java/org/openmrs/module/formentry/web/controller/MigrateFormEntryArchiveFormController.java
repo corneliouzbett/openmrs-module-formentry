@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 /**
  * Controller for the migration assistant
  */
+@SuppressWarnings("deprecation")
 public class MigrateFormEntryArchiveFormController extends SimpleFormController {
 	
     /** Logger for this class and subclasses */
@@ -32,9 +33,9 @@ public class MigrateFormEntryArchiveFormController extends SimpleFormController 
      * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
      */
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
-		
+
 		// not really used
-		
+
         return "";
     }
     

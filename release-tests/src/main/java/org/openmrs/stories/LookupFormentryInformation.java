@@ -13,20 +13,20 @@
  */
 package org.openmrs.stories;
 
-import org.openmrs.Steps;
-import org.openmrs.Story;
-import org.openmrs.steps.AdminSteps;
-import org.openmrs.steps.LoginSteps;
-import org.openmrs.steps.LookupFormentryInformationSteps;
+//import org.openmrs.Steps;
+//import org.openmrs.Story;
+//import org.openmrs.steps.AdminSteps;
+//import org.openmrs.steps.LoginSteps;
+//import org.openmrs.steps.LookupFormentryInformationSteps;
 
 import java.util.List;
 
 import static java.util.Arrays.asList;
 
-public class LookupFormentryInformation extends Story {
+public class LookupFormentryInformation {
 
-    @Override
-    public List<Steps> includeSteps() {
-        return asList(new LoginSteps(driver), new AdminSteps(driver), new LookupFormentryInformationSteps(driver));
-    }
+//    @Override
+//    public List<Steps> includeSteps() {
+//        return asList(new LoginSteps(driver), new AdminSteps(driver), new LookupFormentryInformationSteps(driver));
+//    }
 }

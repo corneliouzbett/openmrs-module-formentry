@@ -44,7 +44,7 @@ public class FormSchemaBuilder {
 	/**
 	 * Construct a schema builder for a given form within a given Context
 	 * 
-	 * @param Context
+	 *
 	 * @param form
 	 */
 	public FormSchemaBuilder(Form form) {
@@ -126,12 +126,12 @@ public class FormSchemaBuilder {
 		}
 		
 		//Include all segments from all serializable complex obs handlers
-		Map<String, ComplexObsHandler> handlers = Context.getObsService().getHandlers();
-		for (ComplexObsHandler handler : handlers.values()) {
-			if (handler instanceof SerializableComplexObsHandler) {
-				schema.append(((SerializableComplexObsHandler)handler).getSchema("application/xml"));
-			}
-		}
+//		Map<String, ComplexObsHandler> handlers = Context.getObsService().getHandlers();
+//		for (ComplexObsHandler handler : handlers.values()) {
+//			if (handler instanceof SerializableComplexObsHandler) {
+//				schema.append(((SerializableComplexObsHandler)handler).getSchema("application/xml"));
+//			}
+//		}
 
 		// add footer to complete the schema
 		schema.append(FormSchemaFragment.footer());
@@ -155,7 +155,7 @@ public class FormSchemaBuilder {
 	 * 
 	 * @param section
 	 *            a sequence of <code>FormField</code>s
-	 * @param s
+	 *
 	 *            the java.util.StringBuffer used for generating output
 	 * @return a list of any elements encountered within the current section
 	 *         that have children of their own (and, therefore, need subsequent

@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.directwebremoting.guice.RequestParameters;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Patient;
@@ -31,7 +32,9 @@ import org.openmrs.api.EncounterService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.formentry.FormEntryConstants;
 import org.springframework.web.bind.ServletRequestUtils;
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Provides the backing controller for the encounter.htm taskpane page
@@ -39,41 +42,71 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
  * This controller expects to be given the patientId and potentially an
  * encounter type to restrict to
  */
-public class EncounterTaskpaneController extends SimpleFormController {
+
+@Controller
+@RequestMapping("formTaskpane.htm")
+public class EncounterTaskpaneController {
 	
     /** Logger for this class and subclasses */
     protected final Log log = LogFactory.getLog(getClass());
 
-    
-    /**
-     * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
-     */
-    protected Object formBackingObject(HttpServletRequest request) throws ServletException {
-		
-    	if (!Context.hasPrivilege(FormEntryConstants.PRIV_FORM_ENTRY))
-    		throw new APIAuthenticationException("You must have FormEntry privileges to continue");
-    	
-    	// find the relevant patient
-    	Integer patientId = ServletRequestUtils.getRequiredIntParameter(request, "patientId");
-    	Patient patient = Context.getPatientService().getPatient(patientId);
-    	if (patient == null)
-    		throw new APIException("A valid patientId is required for this page. " + patientId + " not found");
-    	
-    	// find the relevant encounter types
-    	int[] encounterTypeIds = ServletRequestUtils.getIntParameters(request, "encounterTypeId");
+	@RequestMapping(method = RequestMethod.GET)
+	public Object getTaskPanes(@RequestParam(value = "patientId") String patientId,
+							@RequestParam(value = "encounterTypeId") int[] encounterTypeId){
+
+
+
+		if (!Context.hasPrivilege(FormEntryConstants.PRIV_FORM_ENTRY))
+			throw new APIAuthenticationException("You must have FormEntry privileges to continue");
+		Patient patient = Context.getPatientService().getPatient(Integer.parseInt(patientId));
+		if (patient == null)
+			throw new APIException("A valid patientId is required for this page. " + patientId + " not found");
+
+// find the relevant encounter types
+		int[] encounterTypeIds = encounterTypeId;
 		List<EncounterType> encounterTypes = new Vector<EncounterType>();
 		for (int encTypeId : encounterTypeIds)
 			encounterTypes.add(new EncounterType(encTypeId));
-		
-    	// fetch the encounters for this patient
+
+		// fetch the encounters for this patient
 		EncounterService es = Context.getEncounterService();
-		List<Encounter> encounters = es.getEncounters(patient, null, null, null, null, encounterTypes, false); 
-		
+		List<Encounter> encounters = es.getEncounters(patient, null, null, null, null, encounterTypes, false);
+
 		if (encounters == null)
 			return Collections.emptyList();
 		else
 			return encounters;
-		
-    }
+	}
+
+//    /**
+//     * @see org.springframework.web.servlet.mvc.Controller
+//     */
+//    protected Object formBackingObject(HttpServletRequest request) throws ServletException {
+//
+//    	if (!Context.hasPrivilege(formEntryConstants.PRIV_FORM_ENTRY))
+//    		throw new APIAuthenticationException("You must have FormEntry privileges to continue");
+//
+//    	// find the relevant patient
+//    	Integer patientId = ServletRequestUtils.getRequiredIntParameter(request, "patientId");
+//    	Patient patient = Context.getPatientService().getPatient(patientId);
+//    	if (patient == null)
+//    		throw new APIException("A valid patientId is required for this page. " + patientId + " not found");
+//
+//    	// find the relevant encounter types
+//    	int[] encounterTypeIds = ServletRequestUtils.getIntParameters(request, "encounterTypeId");
+//		List<EncounterType> encounterTypes = new Vector<EncounterType>();
+//		for (int encTypeId : encounterTypeIds)
+//			encounterTypes.add(new EncounterType(encTypeId));
+//
+//    	// fetch the encounters for this patient
+//		EncounterService es = Context.getEncounterService();
+//		List<Encounter> encounters = es.getEncounters(patient, null, null, null, null, encounterTypes, false);
+//
+//		if (encounters == null)
+//			return Collections.emptyList();
+//		else
+//			return encounters;
+//
+//    }
 	
 }

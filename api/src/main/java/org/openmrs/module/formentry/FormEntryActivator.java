@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.Activator;
+import org.openmrs.module.BaseModuleActivator;
 import org.openmrs.module.formentry.migration.MigrateFormEntryXsnsThread;
 
 /**
@@ -13,7 +14,7 @@ import org.openmrs.module.formentry.migration.MigrateFormEntryXsnsThread;
  * The class checks for property deprecation, loads in runtime properties,
  * and starts up the xsn migration if it hasn't happened already
  */
-public class FormEntryActivator implements Activator {
+public class FormEntryActivator extends BaseModuleActivator  {
 
 	private Log log = LogFactory.getLog(this.getClass());
 	

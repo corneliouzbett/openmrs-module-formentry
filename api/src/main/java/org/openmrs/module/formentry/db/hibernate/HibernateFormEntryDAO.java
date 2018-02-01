@@ -30,9 +30,13 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.openmrs.util.DatabaseUpdater;
+import java.sql.Connection;
+import org.openmrs.util.DatabaseUtil;
 import org.openmrs.Form;
 import org.openmrs.api.APIException;
 import org.openmrs.api.FormService;
@@ -57,8 +61,8 @@ public class HibernateFormEntryDAO implements FormEntryDAO {
 	/**
 	 * Hibernate session factory
 	 */
-	private SessionFactory sessionFactory;
-	
+	private DbSessionFactory sessionFactory;
+
 	/**
 	 * Default public constructor
 	 */
@@ -69,7 +73,7 @@ public class HibernateFormEntryDAO implements FormEntryDAO {
 	 * 
 	 * @param sessionFactory
 	 */
-	public void setSessionFactory(SessionFactory sessionFactory) { 
+	public void setSessionFactory(DbSessionFactory  sessionFactory) { 
 		this.sessionFactory = sessionFactory;
 	}
 
@@ -144,14 +148,15 @@ public class HibernateFormEntryDAO implements FormEntryDAO {
 	 */
 	public void migrateQueueAndArchiveToFilesystem() {
 		// this feels like a lot of business level logic in a dao layer.  refactoring needed?
-		
-		Connection conn = sessionFactory.getCurrentSession().connection();
+
+     	 //sessionFactory.getCurrentSession().connection();
 		FormEntryService formEntryService = (FormEntryService)Context.getService(FormEntryService.class);
 		
 		boolean formEntryQueueExists = true; // assume true in case of an error
 		// figure out if the tables exist or not.  If they do not, this has been run before
 		// and we can just skip migrating the queue
 		try {
+			Connection conn = DatabaseUpdater.getConnection();
 			PreparedStatement ps = conn.prepareStatement("select count(*) from formentry_queue");
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
@@ -168,7 +173,7 @@ public class HibernateFormEntryDAO implements FormEntryDAO {
 		if (formEntryQueueExists) {
 			try {
 				String sql = "select form_data from formentry_queue";
-			
+				Connection conn = DatabaseUpdater.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
 				
 				ResultSet rs = ps.executeQuery();
@@ -197,14 +202,15 @@ public class HibernateFormEntryDAO implements FormEntryDAO {
 		PreparedStatement selectFormentry = null;
 		PreparedStatement deleteFormentry = null;
 		try {
+			Connection conn = DatabaseUpdater.getConnection();
 			selectFormentry = conn.prepareStatement("select form_data, date_created from formentry_archive limit ?");
 			selectFormentry.setInt(1, chunkSize);
 			
 			deleteFormentry = conn.prepareStatement("delete from formentry_archive limit ?");
 			deleteFormentry.setInt(1, chunkSize);
 		}
-		catch (SQLException sql) {
-			log.warn("Uh oh.  Trouble creating the formentry prepared statements", sql);
+		catch (Exception e) {
+			log.warn("Uh oh.  Trouble creating the formentry prepared statements", e);
 		}
 		
 		List<FormEntryArchive> toDeleteIfError = new ArrayList<FormEntryArchive>(); 
@@ -237,8 +243,8 @@ public class HibernateFormEntryDAO implements FormEntryDAO {
 						migrationNeeded = false;
 					
 					deleteFormentry.executeUpdate();
-					
-					conn.commit();
+
+					DatabaseUpdater.getConnection().commit();
 					
 					toDeleteIfError.clear();
 				}
@@ -259,7 +265,7 @@ public class HibernateFormEntryDAO implements FormEntryDAO {
 		if (deleteTable && active) {
 			try {
 				// delete the formentry_archive table
-				PreparedStatement ps = conn.prepareStatement("drop table if exists formentry_archive");
+				PreparedStatement ps = DatabaseUpdater.getConnection().prepareStatement("drop table if exists formentry_archive");
 				ps.executeUpdate();
 			}
 			catch (Exception e) {
@@ -268,38 +274,45 @@ public class HibernateFormEntryDAO implements FormEntryDAO {
 		}
 
 	}
-	
+
 	/**
 	 * @see org.openmrs.module.formentry.db.FormEntryDAO#migrateFormEntryArchiveNeeded()
 	 */
 	public Boolean migrateFormEntryArchiveNeeded() {
-		Connection conn = sessionFactory.getCurrentSession().connection();
+
 		PreparedStatement ps = null;
-        try {
-        	ps = conn.prepareStatement("select count(*) from formentry_archive");
-	        ResultSet rs = ps.executeQuery();
+		try {
+			Connection conn = DatabaseUpdater.getConnection();
+			ps = conn.prepareStatement("select count(*) from formentry_archive");
+			ResultSet rs = ps.executeQuery();
 			if (rs.next())
 				return rs.getInt(1) > 0;
 			else
 				return false;
-        } catch (SQLException e) {
-	        // essentially swallow the error
-	        log.trace("The table doesn't exist, so migration is not needed", e);
-	        return false;
-        }
-        finally {
-        	try {
-	            ps.close();
-            }
-            catch (SQLException e) { }
-        }
-        
+		} catch (Exception e) {
+			// essentially swallow the error
+			log.trace("The table doesn't exist, so migration is not needed", e);
+			return false;
+		}
+		finally {
+			try {
+				ps.close();
+			}
+			catch (SQLException e) { }
+		}
+
 	}
-	
-    /**
+
+
+
+
+
+
+	/**
      * @see org.openmrs.module.formentry.db.FormEntryDAO#getAllFormEntryXsnsForForm(org.openmrs.Form, boolean)
      */
     public List<FormEntryXsn> getAllFormEntryXsnsForForm(Form form, boolean includeArchived) {
+
     	Criteria crit = sessionFactory.getCurrentSession().createCriteria(FormEntryXsn.class);
     	crit.add(Restrictions.eq("form", form));
     	
@@ -313,6 +326,8 @@ public class HibernateFormEntryDAO implements FormEntryDAO {
      * @see org.openmrs.module.formentry.db.FormEntryDAO#getFormEntryXsn(java.lang.Integer)
      */
     public FormEntryXsn getFormEntryXsn(Integer formId) {
+//    	DatabaseUpdater.
+//				sessionFactory.getCurrentSession().createQuery()
     	Query query = sessionFactory.getCurrentSession().createQuery("from FormEntryXsn where form.formId = :formId and archived = 0 order by formEntryXsnId desc");
 		query.setParameter("formId", formId);
     	query.setMaxResults(1); // do this just in case there are two xsns marked as nonarchived
