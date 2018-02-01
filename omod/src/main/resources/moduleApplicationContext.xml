@@ -10,8 +10,8 @@
     	<property name="mappings">
             <props>
                 <prop key="**/patientRelationship.portlet">patientRelationshipPortletController</prop>
-				<prop key="formTaskpane.htm">formTaskpaneRedirect</prop>
-				<prop key="module/formentry/formEntryError.list">formEntryErrorList</prop>
+				<!--<prop key="formTaskpane.htm">formTaskpaneRedirect</prop>-->
+				<!--<prop key="module/formentry/formEntryError.list">formEntryErrorList</prop>-->
 				<prop key="module/formentry/xsnUpload.form">xsnUploadForm</prop>
 				<prop key="module/formentry/migrateFormEntryArchive.form">migrateFormEntryForm</prop>
 				<prop key="module/formentry/setupRelationshipSchemas.form">setupRelationshipSchemas</prop>
@@ -19,7 +19,7 @@
 				<prop key="module/formentry/dynamicForm.form">dynamicFormEntryController</prop>
 				<prop key="module/formentry/batchForm.form">batchFormEntryController</prop>
 				<prop key="module/formentry/patientForm.form">patientFormEntryController</prop>
-				
+
 				<prop key="module/formentry/taskpane/encounter.htm">encounterTaskpaneController</prop>
 			</props>
 		</property>
@@ -35,7 +35,7 @@
 						<bean class="@MODULE_PACKAGE@.impl.FormEntryServiceImpl">
 							<property name="formEntryDAO">
 								<bean class="@MODULE_PACKAGE@.db.hibernate.HibernateFormEntryDAO">
-									<property name="sessionFactory"><ref bean="sessionFactory"/></property>	
+									<property name="sessionFactory"><ref bean="dbSessionFactory"/></property>
 								</bean>
 							</property>	
 						</bean>
@@ -57,11 +57,11 @@
 		<property name="redirectView"><value>/module/formentry/formTaskpane</value></property>
 	</bean>
 	
-	<bean id="formEntryErrorList" class="@MODULE_PACKAGE@.web.controller.FormEntryErrorListController">
-		<property name="commandName"><value>formEntryErrorList</value></property>
-		<property name="formView"><value>/module/formentry/formEntryErrorList</value></property>
-		<property name="successView"><value>formEntryError.list</value></property>
-	</bean>
+	<!--<bean id="formEntryErrorList" class="@MODULE_PACKAGE@.web.controller.FormEntryErrorListController">-->
+		<!--<property name="commandName"><value>formEntryErrorList</value></property>-->
+		<!--<property name="formView"><value>/module/formentry/formEntryErrorList</value></property>-->
+		<!--<property name="successView"><value>formEntryError.list</value></property>-->
+	<!--</bean>-->
 	
 	<bean id="xsnUploadForm" class="@MODULE_PACKAGE@.web.controller.XsnUploadFormController">
 		<property name="commandName"><value>formList</value></property>
@@ -105,12 +105,12 @@
 		<property name="successView"><value>patientDashboard.form</value></property>
 	</bean>
 	
-	<bean id="encounterTaskpaneController" class="@MODULE_PACKAGE@.web.controller.EncounterTaskpaneController">
-		<property name="commandName"><value>encounters</value></property>
-		<property name="commandClass"><value>java.util.List</value></property>
-		<property name="formView"><value>/module/formentry/taskpane/encounter</value></property>
-		<property name="successView"><value>encounter.htm</value></property>
-	</bean>
+	<!--<bean id="encounterTaskpaneController" class="@MODULE_PACKAGE@.web.controller.EncounterTaskpaneController">-->
+		<!--<property name="commandName"><value>encounters</value></property>-->
+		<!--<property name="commandClass"><value>java.util.List</value></property>-->
+		<!--<property name="formView"><value>/module/formentry/taskpane/encounter</value></property>-->
+		<!--<property name="successView"><value>encounter.htm</value></property>-->
+	<!--</bean>-->
 	
 	<bean id="patientRelationshipPortletController" class="@MODULE_PACKAGE@.web.controller.PatientRelationshipPortletController">
 	</bean>

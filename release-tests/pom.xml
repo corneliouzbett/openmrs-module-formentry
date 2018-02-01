@@ -15,18 +15,27 @@
     <name>formentry-release-tests</name>
 
     <dependencies>
-        <dependency>
-            <groupId>org.openmrs</groupId>
-            <artifactId>openmrs-release-test</artifactId>
-            <version>${openMRSReleaseTestVersion}</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.openmrs</groupId>-->
+            <!--<artifactId>openmrs-release-test</artifactId>-->
+            <!--<version>${openMRSReleaseTestVersion}</version>-->
+            <!--<type>jar</type>-->
+            <!--<scope>compile</scope>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.openmrs.api</groupId>-->
+            <!--<artifactId>openmrs</artifactId>-->
+            <!--<version>1.12.0</version>-->
+            <!--<type>jar</type>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>org.jbehave.web</groupId>
             <artifactId>jbehave-web-selenium</artifactId>
             <version>3.4.1</version>
-            <scope>compile</scope>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -110,9 +119,9 @@
                                     <outputDirectory>target/${openMRSVersion}/webapp</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>org.openmrs</groupId>
-                                    <artifactId>openmrs-release-test</artifactId>
-                                    <version>${openMRSReleaseTestVersion}</version>
+                                    <groupId>org.openmrs.test</groupId>
+                                    <artifactId>openmrs-test</artifactId>
+                                    <version>1.12.0</version>
                                     <type>jar</type>
                                     <outputDirectory>target/${openMRSReleaseTestVersion}</outputDirectory>
                                 </artifactItem>
@@ -378,8 +387,8 @@
     </profiles>
     <properties>
         <webapp.name>openmrs</webapp.name>
-        <openMRSVersion>1.10.0-SNAPSHOT</openMRSVersion>
-        <openMRSReleaseTestVersion>1.10.0-SNAPSHOT</openMRSReleaseTestVersion>
+        <openMRSVersion>1.12.0</openMRSVersion>
+        <!--<openMRSReleaseTestVersion>1.10.0-SNAPSHOT</openMRSReleaseTestVersion>-->
         <formentryOmodVersion>${parent.version}</formentryOmodVersion>
     </properties>
 

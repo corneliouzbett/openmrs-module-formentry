@@ -13,8 +13,8 @@
  */
 package org.openmrs.module.formentry.test;
 
-import junit.framework.Assert;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.formentry.FormEntryError;
@@ -29,36 +29,36 @@ public class TestFormEntryError extends BaseModuleContextSensitiveTest {
 
 	/**
 	 * Test that an error queue item can get into the database
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void shouldCreateErrorQueueItem() throws Exception {
-		
+
 		initializeInMemoryDatabase();
-		
+
 		authenticate();
-		
+
 		//Class c = ATDProducerService.class;
 		//Object service = Context.getService(c);
-		
+
 		Thread.currentThread().setContextClassLoader(OpenmrsClassLoader.getInstance());
 
 		System.out.println("FormEntryService.class.getClassLoader(): " + FormEntryService.class.getClassLoader());
 		//System.out.println("OpenmrsClassLoader.get(FormEntryService.class).getClassLoader(): " + OpenmrsClassLoader.getInstance().loadClass("org.openmrs.module.FormEntryService.FormEntryService").getClassLoader());
-		
+
 		FormEntryService formEntryService = (FormEntryService)Context.getService(FormEntryService.class);
-		
+
 		// create and save an error object
 		FormEntryError error = new FormEntryError();
 		error.setError("Some error");
 		error.setErrorDetails("Some error details");
 		error.setFormData("Some form data");
-		
+
 		formEntryService.createFormEntryError(error);
-		
+
 		FormEntryError fetchedError = formEntryService.getFormEntryError(1);
-		
+
 		Assert.assertNotNull(fetchedError);
 		
 	}

@@ -38,6 +38,7 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
  * Allows the user to add the needed form schema elements to selected forms
  * 
  */
+@SuppressWarnings("deprecation")
 public class SetupRelationshipSchemasFormController extends SimpleFormController {
 	
     /** Logger for this class and subclasses */

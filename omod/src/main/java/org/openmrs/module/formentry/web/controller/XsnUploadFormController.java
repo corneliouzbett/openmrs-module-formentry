@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
-
+@SuppressWarnings("deprecation")
 public class XsnUploadFormController extends SimpleFormController {
 	
     /** Logger for this class and subclasses */
@@ -91,7 +91,7 @@ public class XsnUploadFormController extends SimpleFormController {
 		if (Context.isAuthenticated()) {
 			FormService fs = Context.getFormService();
 			//FormService rs = new TestFormService();
-	    	formList = fs.getForms();
+	    	formList = fs.getPublishedForms();
 		}
     	
         return formList;

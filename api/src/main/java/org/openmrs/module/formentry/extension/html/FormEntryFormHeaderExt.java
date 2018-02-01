@@ -1,5 +1,6 @@
 package org.openmrs.module.formentry.extension.html;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -30,7 +31,7 @@ public class FormEntryFormHeaderExt extends Extension {
 	@SuppressWarnings({ "rawtypes", "deprecation" })
 	public Map<String, String> getLinks() {
 		
-		Map<String, String> map = new TreeMap<String, String>(new InsertedOrderComparator());
+		Map<String, String> map = new HashMap<String, String>();
 		
 		if (formId != null) {
 			map.put("moduleServlet/formentry/formDownload?target=schema&formId=" + formId, "formentry.xsn.downloadSchema");
