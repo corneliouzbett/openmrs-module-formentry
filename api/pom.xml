@@ -5,21 +5,12 @@
 		<artifactId>formentry</artifactId>
 		<version>5.0.7-SNAPSHOT</version>
 	</parent>
-	<groupId>org.openmrs.module</groupId>
 	<artifactId>formentry-api</artifactId>
 	<packaging>jar</packaging>
 	<name>FormEntry API</name>
 	<description>API project for FormEntry</description>
 
 	<dependencies>
-		<!-- 
-		Add other dependencies from lib:
-		<dependency>
-			<groupId>org.other.library</groupId>
-			<artifactId>library-name</artifactId>
-		</dependency>
-		-->
-		
 		<dependency>
 			<groupId>org.openmrs.api</groupId>
 			<artifactId>openmrs-api</artifactId>

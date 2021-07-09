@@ -5,7 +5,6 @@
 		<artifactId>formentry</artifactId>
 		<version>5.0.7-SNAPSHOT</version>
 	</parent>
-	<groupId>org.openmrs.module</groupId>
 	<artifactId>formentry-omod</artifactId>
 	<packaging>jar</packaging>
 	<name>FormEntry OMOD</name>
