@@ -2,6 +2,7 @@ package org.openmrs.module.formentry.extension.html;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -12,7 +13,6 @@ import org.openmrs.module.Extension;
 import org.openmrs.module.formentry.FormEntryService;
 import org.openmrs.module.formentry.FormEntryXsn;
 import org.openmrs.module.web.extension.TableRowExt;
-import org.openmrs.util.InsertedOrderComparator;
 
 /**
  * Adds a row to the editForm.form screen showing the last time the xsn was modified
@@ -34,7 +34,7 @@ public class FormEntryFormRowsExt extends TableRowExt {
 	
 	public Map<String, String> getRows() {
 		
-		Map<String, String> map = new TreeMap<String, String>(new InsertedOrderComparator());
+		Map<String, String> map = new TreeMap<String, String>(new LinkedHashMap<>());
 		
 		try {
 			// if we're not the basic form or a new form

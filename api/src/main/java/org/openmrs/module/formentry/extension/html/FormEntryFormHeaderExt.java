@@ -2,7 +2,6 @@ package org.openmrs.module.formentry.extension.html;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.openmrs.Form;
 import org.openmrs.FormResource;
@@ -10,10 +9,8 @@ import org.openmrs.api.context.Context;
 import org.openmrs.customdatatype.CustomDatatype;
 import org.openmrs.customdatatype.CustomDatatypeHandler;
 import org.openmrs.customdatatype.CustomDatatypeUtil;
-import org.openmrs.customdatatype.CustomValueDescriptor;
 import org.openmrs.module.Extension;
 import org.openmrs.module.formentry.FormEntryConstants;
-import org.openmrs.util.InsertedOrderComparator;
 
 public class FormEntryFormHeaderExt extends Extension {
 	
